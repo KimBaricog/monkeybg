@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: white;
+}
+.output {
+  border: dashed 2px #000000;
+  background-color: #ffffff4f;
+  width: 30%;
+  min-height: 50vh;
+  max-height: 70vh;
+  height: auto;
+  overlay: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.output img {
+  width: 100%;
+  height: auto;
+}
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+input[type="file"] {
+  display: none;
+}
+button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  background: linear-gradient(180deg, #32cd32, #47ff0a);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+button:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 768px) {
+  .output {
+    width: 90%;
+  }
+}
