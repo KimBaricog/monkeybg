@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
+import Loader from "./components/Loader";
 import React, { useState, useRef } from "react";
 
 function App() {
@@ -30,12 +31,18 @@ function App() {
       handlestyle();
     }
   };
+  const [isVisible, setIsVisible] = useState(false); // state to control loader visibility
+  const showloader = () => {
+    setIsVisible((prev) => !prev); // toggle visibility
+  };
 
   // Remove background
   const removeBg = async () => {
+    showloader(); // show loader
     const file = image.current.files[0];
     if (!file) {
       alert("Please select an image first");
+      showloader(); // hide loader
       return;
     }
 
@@ -57,6 +64,7 @@ function App() {
       removebtn.current.style.display = "none";
       downloadbtn.current.style.display = "block";
       setImgData(url);
+      showloader();
     } else {
       const error = await response.text();
       console.error(error);
@@ -85,6 +93,7 @@ function App() {
       <Header />
       <main>
         <div className="output">
+          <Loader visible={isVisible} />
           {images.map((src, index) => (
             <img
               key={index}
