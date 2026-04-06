@@ -22,19 +22,7 @@ function Alertcom({ showsuccess, showerror }) {
             </svg>
           </div>
           <div class="success-message">Background removed successfully!</div>
-          <div class="popup-icon close-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-              class="close-svg"
-            >
-              <path
-                d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
-                class="close-path"
-              ></path>
-            </svg>
-          </div>
+          <div class="popup-icon close-icon"></div>
         </div>
 
         <div
@@ -58,18 +46,7 @@ function Alertcom({ showsuccess, showerror }) {
           <div class="error-message">
             An error occurred while removing the background.
           </div>
-          <div class="popup-icon close-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              class="close-svg"
-            >
-              <path
-                d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
-                class="close-path"
-              ></path>
-            </svg>
-          </div>
+          <div class="popup-icon close-icon"></div>
         </div>
       </div>
     </>

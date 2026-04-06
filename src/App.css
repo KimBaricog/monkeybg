@@ -10,9 +10,9 @@ body {
 .output {
   border: dashed 2px #000000;
   background-color: #ffffff4f;
-  width: 30%;
+  width: auto;
   min-height: 50vh;
-  max-height: 70vh;
+  max-height: 60vh;
   height: auto;
   overlay: hidden;
   display: flex;
@@ -23,7 +23,8 @@ body {
 }
 .output img {
   width: 100%;
-  height: auto;
+  height: 70vh;
+  max-height: 60vh;
 }
 main {
   width: 100%;

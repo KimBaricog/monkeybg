@@ -10,6 +10,18 @@
   border-radius: 4px;
   padding: 5px 0;
   font-weight: 300;
+  animation: slideLeft 2s ease forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 .popup svg {
   width: 1.25rem;

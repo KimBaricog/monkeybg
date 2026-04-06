@@ -69,7 +69,7 @@ function App() {
       alert("Please select an image first");
       return;
     }
-
+    setIsVisible(true); // ensure loader is shown when called
     const formData = new FormData();
     formData.append("size", "auto");
     formData.append("image_file", file, file.name);
@@ -77,7 +77,7 @@ function App() {
     const response = await fetch("https://api.remove.bg/v1.0/removebg", {
       method: "POST",
       headers: {
-        "X-Api-Key": "GHGm9EButF5XYfoQfMiZGMjq", //expose API hahahaha don't have the money for a backend deployment :D (only a test key anyway, will be deactivated after 50 API calls)
+        "X-Api-Key": "xxq7Jj8Dtdts63TAU9bpa5oo", //expose API hahahaha don't have the money for a backend deployment :D (only a test key anyway, will be deactivated after 50 API calls)
       },
       body: formData,
     });
@@ -96,7 +96,7 @@ function App() {
       setTimeout(() => {
         showerror();
         reset();
-      }, 2000);
+      }, 5000);
     }
   };
 
@@ -136,6 +136,7 @@ function App() {
           className="output"
         >
           <Loader visible={isVisible} />
+
           {images.map((src, index) => (
             <img
               key={index}
@@ -156,8 +157,13 @@ function App() {
           Select Photo
         </button>
 
-        <button ref={removebtn} style={{ display: "none" }} onClick={removeBg}>
-          Remove Background
+        <button
+          ref={removebtn}
+          style={{ display: "none", opacity: isVisible ? 0.5 : 1 }}
+          onClick={removeBg}
+          disabled={isVisible} // disable while loading
+        >
+          {isVisible ? "Processing..." : "Remove Background"}
         </button>
 
         <button

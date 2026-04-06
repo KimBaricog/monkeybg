@@ -1,15 +1,159 @@
+/* HEADER */
 header {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
   background: rgb(64, 192, 87);
-  background-size: cover;
-  background-attachment: fixed;
   margin-bottom: 10px;
   color: white;
+  padding: 10px 15px;
 }
+
 header img {
   width: 100px;
   height: auto;
+}
+.text {
+  margin-left: 5px;
+}
+
+.check {
+  margin-left: auto;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* From Uiverse.io by adamgiebl */
+#checkbox2 {
+  display: none;
+}
+
+.toggle2 {
+  position: relative;
+  width: 40px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition-duration: 0.5s;
+}
+
+.bars {
+  width: 100%;
+  height: 6px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 6px;
+}
+
+#bar5 {
+  transition-duration: 0.8s;
+}
+
+#bar4,
+#bar6 {
+  width: 80%;
+}
+
+#checkbox2:checked + .toggle2 .bars {
+  position: absolute;
+  transition-duration: 0.5s;
+}
+
+#checkbox2:checked + .toggle2 #bar5 {
+  transform: scaleX(0);
+  transition-duration: 0.5s;
+}
+
+#checkbox2:checked + .toggle2 #bar4 {
+  width: 100%;
+  transform: rotate(45deg);
+  transition-duration: 0.5s;
+}
+
+#checkbox2:checked + .toggle2 #bar6 {
+  width: 100%;
+  transform: rotate(-45deg);
+  transition-duration: 0.5s;
+}
+
+#checkbox2:checked + .toggle2 {
+  transition-duration: 0.5s;
+  transform: rotate(180deg);
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 94px; /* adjust based on header height */
+  right: -500px;
+  width: 260px;
+  height: 85%;
+  background: rgb(64, 192, 87);
+  color: white;
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.text-support {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.text-support a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.image img {
+  width: 100%;
+  height: auto;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  header {
+    font-size: 14px;
+  }
+
+  header img {
+    width: 80px;
+  }
+  .sidebar {
+    top: 94px;
+  }
+  .sidebar.open {
+    right: 0;
+  }
+}
+@media (min-width: 1024px) {
+  .sidebar {
+    right: 0;
+  }
+  .check {
+    display: none;
+  }
 }
