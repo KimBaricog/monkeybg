@@ -53,8 +53,6 @@ function Header() {
           </a>
         </div>
 
-        <Install />
-
         <div className="image">
           <img
             src="https://res.cloudinary.com/dgwmeeszw/image/upload/v1775444893/monkeybg_5_qqzvul.png"
