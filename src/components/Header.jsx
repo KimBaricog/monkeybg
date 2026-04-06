@@ -18,7 +18,6 @@ function Header() {
           <h1>
             <spam style={{ color: "yellow" }}>M</spam>ONKEY.bg
           </h1>
-          <p>Remove background for free!</p>
         </div>
 
         <div className="check">

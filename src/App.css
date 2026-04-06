@@ -7,8 +7,34 @@ body {
   font-family: sans-serif;
   background-color: white;
 }
+.parentcontainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 100px;
+}
+.container {
+  border: dashed 3px #666666;
+  min-width: 40%;
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 20px;
+  height: 50vh;
+}
+.otherbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 .output {
-  border: dashed 2px #000000;
   background-color: #ffffff4f;
   width: auto;
   min-height: 50vh;
@@ -23,15 +49,18 @@ body {
 }
 .output img {
   width: 100%;
-  height: 70vh;
+  height: 40vh;
   max-height: 60vh;
 }
 main {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
+  height: calc(100vh - 13vh);
+  overflow-y: auto;
+  justify-content: space-between;
 }
 input[type="file"] {
   display: none;
@@ -57,10 +86,41 @@ button:hover {
 }
 
 .main-text {
+  word-break: break-word;
+  width: 70%;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 30vh;
+  height: 10vh;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+.head-text {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  flex-direction: column;
+  color: #373737;
+}
+.head-text img {
+  width: 50px;
+  height: auto;
+  margin-right: 20px;
+}
+.head-text-logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#info-text {
+  font-size: 0.9em;
+  color: #666666;
+  margin-top: 10px;
 }
 
 #cancel {
@@ -68,7 +128,21 @@ button:hover {
   margin-top: 10px;
 }
 @media (max-width: 768px) {
-  .output {
+  .output img {
+    width: 100%;
+    height: auto;
+  }
+  .container {
     width: 90%;
+    height: 40vh;
+  }
+
+  .head-text {
+    font-size: 15px;
+    text-align: center;
+  }
+  .main-text {
+    width: 90%;
+    font-size: 1em;
   }
 }

@@ -3,9 +3,9 @@ header {
   display: flex;
   align-items: center;
   background: rgb(64, 192, 87);
-  margin-bottom: 10px;
   color: white;
   padding: 10px 15px;
+  height: 10vh;
 }
 
 header img {
@@ -151,7 +151,7 @@ header img {
 }
 @media (min-width: 1024px) {
   .sidebar {
-    right: 0;
+    display: none;
   }
   .check {
     display: none;

@@ -1,0 +1,58 @@
+.card {
+  background-color: white;
+  width: 20%;
+  height: 20vh;
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 10px;
+  color: black;
+  gap: 20px;
+  margin-top: 20px;
+  color: #373737;
+}
+.card img {
+  width: 80px;
+  height: 80px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.tut-text {
+  width: 56%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  word-break: normal;
+  gap: 10px;
+  font-family: sans-serif;
+}
+.tut-text h2 {
+  font-size: 18px;
+  font-weight: 800;
+}
+.tut-text p {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+@media (max-width: 768px) {
+  .card {
+    width: 50%;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .card img {
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+  }
+  .tut-text {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+}

@@ -1,0 +1,24 @@
+.howto {
+  background: linear-gradient(15deg, #7c84fc, #ff4dd2);
+  width: 100%;
+  height: auto;
+  color: white;
+  text-align: center;
+  padding: 30px 0px;
+}
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  #h-id {
+    font-size: 25px;
+  }
+}

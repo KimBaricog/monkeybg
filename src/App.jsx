@@ -2,74 +2,113 @@ import "./App.css";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import Alert from "./components/Alertcom";
+import How from "./components/Howto";
 import React, { useState, useRef } from "react";
 
 function App() {
-  const image = useRef(null); // store the image file
-  const selectPhoto = useRef(null); // store the button to select the image
-  const removebtn = useRef(null); // store the button to remove the background
-  const downloadbtn = useRef(null); // store the button to download the image
-  const cancelbtn = useRef(null); // store the button to cancel the process
-  const mainTextContainer = useRef(null); // store the main text container
-  const outputcontainer = useRef(null); // store the output container
-  const errorText = useRef(null); // store the error text element
+  const image = useRef(null);
+  const selectPhoto = useRef(null);
+  const removebtn = useRef(null);
+  const downloadbtn = useRef(null);
+  const hidinfo = useRef(null);
+  const cancelbtn = useRef(null);
+  const mainTextContainer = useRef(null);
+  const outputcontainer = useRef(null);
+  const errorText = useRef(null);
+  const [dragDisabled, setDragDisabled] = useState(false);
 
-  const [images, setImages] = useState([]); // store uploaded image URLs
-  const [imgData, setImgData] = useState(null); // store removed-bg image
+  const backgroundstyle = {
+    backgroundImage:
+      "url('https://res.cloudinary.com/dgwmeeszw/image/upload/v1775481344/Screenshot_2026-04-06_210913_hl6lwh.png')",
+  };
 
-  // Click handler for select photo button
+  const [images, setImages] = useState([]);
+  const [imgData, setImgData] = useState(null);
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [isShow, setIsShow] = useState(false);
+  const [isShowError, setIsShowError] = useState(false);
+
+  const [dragging, setDragging] = useState(false);
+
   const handleClick = () => image.current.click();
 
-  // Hide select button, show remove button
   const handlestyle = () => {
     selectPhoto.current.style.display = "none";
     removebtn.current.style.display = "block";
     mainTextContainer.current.style.display = "none";
     outputcontainer.current.style.display = "flex";
     cancelbtn.current.style.display = "block";
+    hidinfo.current.style.display = "none";
   };
 
-  // Preview image when selected
+  // 🔹 Preview image (used by both click & drag)
   const handlepreview = () => {
     const file = image.current.files[0];
+    if (!file) return;
 
-    if (!file) return; // if no file is selected, do nothing
-
-    const allowedTypes = ["image/png", "image/jpeg"];
-    // Validate file type
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
     if (!allowedTypes.includes(file.type)) {
       alert("Only PNG and JPG files are allowed!");
-      image.current.value = ""; // reset input
+      image.current.value = "";
       return;
     }
 
     const url = URL.createObjectURL(file);
-    setImages((prev) => [...prev, url]);
-    setImgData(url); // set current image for background removal
+    setImages([url]);
+    setImgData(url);
     handlestyle();
   };
-  const [isVisible, setIsVisible] = useState(false); // state to control loader visibility
-  const showloader = () => {
-    setIsVisible((prev) => !prev); // toggle visibility
+
+  // DRAG & DROP HANDLERS
+  const handleDragOver = (e) => {
+    if (dragDisabled) return;
+    e.preventDefault();
+    setDragging(true);
   };
 
-  const [isShow, setIsShow] = useState(false); // state to control alert visibility
-  const showsuccess = () => {
-    setIsShow((prev) => !prev);
+  const handleDragLeave = () => {
+    setDragging(false);
   };
-  const [isShowError, setIsShowError] = useState(false); // state to control error alert visibility
-  const showerror = () => {
-    setIsShowError((prev) => !prev);
+
+  const handleDrop = (e) => {
+    if (dragDisabled) return;
+    e.preventDefault();
+    setDragging(false);
+
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only PNG and JPG files are allowed!");
+      return;
+    }
+
+    // Put file into input
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    image.current.files = dataTransfer.files;
+
+    handlepreview();
   };
-  // Remove background
+
+  const showloader = () => setIsVisible((prev) => !prev);
+  const showsuccess = () => setIsShow((prev) => !prev);
+  const showerror = () => setIsShowError((prev) => !prev);
+
+  //  REMOVE BG
   const removeBg = async () => {
-    showloader(); // show loader
+    showloader();
+
     const file = image.current.files[0];
     if (!file) {
       alert("Please select an image first");
       return;
     }
-    setIsVisible(true); // ensure loader is shown when called
+
+    setIsVisible(true);
+
     const formData = new FormData();
     formData.append("size", "auto");
     formData.append("image_file", file, file.name);
@@ -77,7 +116,7 @@ function App() {
     const response = await fetch("https://api.remove.bg/v1.0/removebg", {
       method: "POST",
       headers: {
-        "X-Api-Key": "xxq7Jj8Dtdts63TAU9bpa5oo", //expose API hahahaha don't have the money for a backend deployment :D (only a test key anyway, will be deactivated after 50 API calls)
+        "X-Api-Key": "xxq7Jj8Dtdts63TAU9bpa5oo", //hahahaha expose API key don't have the budget for a backend deployment :D(Anyway, this key is rate-limited and can only be used for testing purposes)
       },
       body: formData,
     });
@@ -85,18 +124,20 @@ function App() {
     if (response.ok) {
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
+
       removebtn.current.style.display = "none";
       downloadbtn.current.style.display = "block";
+
       setImgData(url);
       showloader();
       showsuccess();
+      setDragDisabled(true);
 
-      setTimeout(() => {
-        showsuccess();
-      }, 2000);
+      setTimeout(() => showsuccess(), 2000);
     } else {
-      const error = await response.text();
+      await response.text();
       showerror();
+
       setTimeout(() => {
         showerror();
         reset();
@@ -107,17 +148,17 @@ function App() {
   const downloadImage = (blobUrl) => {
     if (!blobUrl) return;
 
-    fetch(blobUrl) // fetch the blob
+    fetch(blobUrl)
       .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "monkeybg.png"; // force .png extension
+        link.download = "monkeybg.png";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        window.URL.revokeObjectURL(url); // cleanup
+        window.URL.revokeObjectURL(url);
       });
   };
 
@@ -129,63 +170,103 @@ function App() {
     <>
       <Header />
       <main>
+        <div className="head-text">
+          <div className="head-text-logo">
+            <img src="/logo1.png" alt="MonkeyBG Logo" />
+            <p style={{ fontSize: "20px", fontWeight: "700" }}>
+              <spam style={{ color: "yellow" }}>M</spam>ONKEY.BG
+            </p>
+          </div>
+
+          <h1>Remove the background from your image for free.</h1>
+        </div>
+
         <Alert showsuccess={isShow} showerror={isShowError} />
         <p ref={errorText} style={{ color: "red" }}></p>
-        <div ref={mainTextContainer} className="main-text">
-          <p>Select image to remove background</p>
-        </div>
-        <div
-          ref={outputcontainer}
-          style={{ display: "none" }}
-          className="output"
-        >
-          <Loader visible={isVisible} />
+        <div className="parentcontainer">
+          <div
+            className="container"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            onDragLeave={handleDragLeave}
+            style={{
+              border: dragging ? "2px solid blue" : "2px dashed gray",
+              backgroundImage: imgData
+                ? backgroundstyle.backgroundImage
+                : "none",
+            }}
+          >
+            <div ref={mainTextContainer} className="main-text">
+              <p>
+                Drag & Drop or Select image to{" "}
+                <spam style={{ color: "rgb(24, 109, 255)" }}>
+                  remove background
+                </spam>
+              </p>
+            </div>
 
-          {images.map((src, index) => (
-            <img
-              key={index}
-              src={index === images.length - 1 ? imgData : src} // last image shows removed bg
-              alt="preview"
+            <div
+              ref={outputcontainer}
+              style={{ display: "none" }}
+              className="output"
+            >
+              <Loader visible={isVisible} />
+
+              {images.map((src, index) => (
+                <img
+                  key={index}
+                  src={index === images.length - 1 ? imgData : src}
+                  alt="preview"
+                />
+              ))}
+            </div>
+
+            <input
+              type="file"
+              ref={image}
+              onChange={handlepreview}
+              accept="image/png, image/jpeg"
+              style={{ display: "none" }}
             />
-          ))}
+
+            <button ref={selectPhoto} onClick={handleClick}>
+              Select Photo
+            </button>
+
+            <p ref={hidinfo} id="info-text">
+              File must be JPEG, JPG, PNG
+            </p>
+          </div>
+          <div className="otherbtn">
+            <button
+              ref={removebtn}
+              style={{ display: "none", opacity: isVisible ? 0.5 : 1 }}
+              onClick={removeBg}
+              disabled={isVisible}
+            >
+              {isVisible ? "Processing..." : "Remove Background"}
+            </button>
+
+            <button
+              ref={downloadbtn}
+              style={{ display: "none" }}
+              onClick={() => downloadImage(imgData)}
+            >
+              Download
+            </button>
+
+            <p
+              id="cancel"
+              ref={cancelbtn}
+              style={{ display: "none", cursor: "pointer" }}
+              onClick={reset}
+            >
+              Cancel
+            </p>
+          </div>
         </div>
 
-        <input
-          type="file"
-          ref={image}
-          onChange={handlepreview}
-          accept="image/png, image/jpeg"
-        />
-
-        <button ref={selectPhoto} onClick={handleClick}>
-          Select Photo
-        </button>
-
-        <button
-          ref={removebtn}
-          style={{ display: "none", opacity: isVisible ? 0.5 : 1 }}
-          onClick={removeBg}
-          disabled={isVisible} // disable while loading
-        >
-          {isVisible ? "Processing..." : "Remove Background"}
-        </button>
-
-        <button
-          ref={downloadbtn}
-          style={{ display: "none" }}
-          onClick={() => downloadImage(imgData)}
-        >
-          Download
-        </button>
-
-        <p
-          id="cancel"
-          ref={cancelbtn}
-          style={{ display: "none" }}
-          onClick={reset}
-        >
-          Cancel
-        </p>
+        <How />
       </main>
     </>
   );
