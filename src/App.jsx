@@ -90,13 +90,17 @@ function App() {
       setImgData(url);
       showloader();
       showsuccess();
+
+      setTimeout(() => {
+        showsuccess();
+      }, 2000);
     } else {
       const error = await response.text();
       showerror();
       setTimeout(() => {
         showerror();
         reset();
-      }, 5000);
+      }, 2000);
     }
   };
 

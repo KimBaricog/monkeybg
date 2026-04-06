@@ -1,6 +1,9 @@
 /* From Uiverse.io by revanth-004 */
 /* COMMON STYLES*/
 .popup {
+  position: fixed;
+  top: 100px;
+  right: 25px;
   margin: 10px;
   box-shadow: 4px 4px 10px -10px rgba(0, 0, 0, 1);
   width: 300px;
@@ -10,7 +13,8 @@
   border-radius: 4px;
   padding: 5px 0;
   font-weight: 300;
-  animation: slideLeft 2s ease forwards;
+  animation: slideLeft 1s ease-in-out forwards;
+  z-index: 1000;
 }
 
 @keyframes slideLeft {

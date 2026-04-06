@@ -1,4 +1,5 @@
 import "../style/header.css";
+import Install from "./Install";
 import { useState } from "react";
 import { FaTiktok, FaFacebook, FaGithub } from "react-icons/fa";
 
@@ -51,6 +52,8 @@ function Header() {
             <p>Github</p>
           </a>
         </div>
+
+        <Install />
 
         <div className="image">
           <img
