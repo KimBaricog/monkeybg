@@ -1,6 +1,7 @@
 import "./App.css";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
+import Alert from "./components/Alertcom";
 import React, { useState, useRef } from "react";
 
 function App() {
@@ -8,6 +9,10 @@ function App() {
   const selectPhoto = useRef(null); // store the button to select the image
   const removebtn = useRef(null); // store the button to remove the background
   const downloadbtn = useRef(null); // store the button to download the image
+  const cancelbtn = useRef(null); // store the button to cancel the process
+  const mainTextContainer = useRef(null); // store the main text container
+  const outputcontainer = useRef(null); // store the output container
+  const errorText = useRef(null); // store the error text element
 
   const [images, setImages] = useState([]); // store uploaded image URLs
   const [imgData, setImgData] = useState(null); // store removed-bg image
@@ -19,30 +24,49 @@ function App() {
   const handlestyle = () => {
     selectPhoto.current.style.display = "none";
     removebtn.current.style.display = "block";
+    mainTextContainer.current.style.display = "none";
+    outputcontainer.current.style.display = "flex";
+    cancelbtn.current.style.display = "block";
   };
 
   // Preview image when selected
   const handlepreview = () => {
     const file = image.current.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setImages((prev) => [...prev, url]);
-      setImgData(url); // set current image for background removal
-      handlestyle();
+
+    if (!file) return; // if no file is selected, do nothing
+
+    const allowedTypes = ["image/png", "image/jpeg"];
+    // Validate file type
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only PNG and JPG files are allowed!");
+      image.current.value = ""; // reset input
+      return;
     }
+
+    const url = URL.createObjectURL(file);
+    setImages((prev) => [...prev, url]);
+    setImgData(url); // set current image for background removal
+    handlestyle();
   };
   const [isVisible, setIsVisible] = useState(false); // state to control loader visibility
   const showloader = () => {
     setIsVisible((prev) => !prev); // toggle visibility
   };
 
+  const [isShow, setIsShow] = useState(false); // state to control alert visibility
+  const showsuccess = () => {
+    setIsShow((prev) => !prev);
+  };
+  const [isShowError, setIsShowError] = useState(false); // state to control error alert visibility
+  const showerror = () => {
+    setIsShowError((prev) => !prev);
+  };
   // Remove background
   const removeBg = async () => {
     showloader(); // show loader
     const file = image.current.files[0];
     if (!file) {
       alert("Please select an image first");
-      showloader(); // hide loader
       return;
     }
 
@@ -65,9 +89,14 @@ function App() {
       downloadbtn.current.style.display = "block";
       setImgData(url);
       showloader();
+      showsuccess();
     } else {
       const error = await response.text();
-      console.error(error);
+      showerror();
+      setTimeout(() => {
+        showerror();
+        reset();
+      }, 2000);
     }
   };
 
@@ -88,11 +117,24 @@ function App() {
       });
   };
 
+  function reset() {
+    window.location.reload();
+  }
+
   return (
     <>
       <Header />
       <main>
-        <div className="output">
+        <Alert showsuccess={isShow} showerror={isShowError} />
+        <p ref={errorText} style={{ color: "red" }}></p>
+        <div ref={mainTextContainer} className="main-text">
+          <p>Select image to remove background</p>
+        </div>
+        <div
+          ref={outputcontainer}
+          style={{ display: "none" }}
+          className="output"
+        >
           <Loader visible={isVisible} />
           {images.map((src, index) => (
             <img
@@ -103,7 +145,12 @@ function App() {
           ))}
         </div>
 
-        <input type="file" ref={image} onChange={handlepreview} />
+        <input
+          type="file"
+          ref={image}
+          onChange={handlepreview}
+          accept="image/png, image/jpeg"
+        />
 
         <button ref={selectPhoto} onClick={handleClick}>
           Select Photo
@@ -120,6 +167,15 @@ function App() {
         >
           Download
         </button>
+
+        <p
+          id="cancel"
+          ref={cancelbtn}
+          style={{ display: "none" }}
+          onClick={reset}
+        >
+          Cancel
+        </p>
       </main>
     </>
   );

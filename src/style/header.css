@@ -3,7 +3,7 @@ header {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  background: linear-gradient(180deg, #32cd32, #ffffff);
+  background: rgb(64, 192, 87);
   background-size: cover;
   background-attachment: fixed;
   margin-bottom: 10px;
