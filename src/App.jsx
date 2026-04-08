@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Loader from "./components/Loader";
 import Alert from "./components/Alertcom";
 import How from "./components/Howto";
+import { Analytics } from "@vercel/analytics/react";
 
 import React, { useState, useRef } from "react";
 
@@ -269,6 +270,7 @@ function App() {
 
         <How />
       </main>
+      <Analytics />
     </>
   );
 }
