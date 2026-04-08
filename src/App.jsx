@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
+import Repair from "./components/Repair";
 import Loader from "./components/Loader";
 import Alert from "./components/Alertcom";
 import How from "./components/Howto";
@@ -171,6 +172,7 @@ function App() {
     <>
       <Header />
       <main>
+        {/* 
         <div className="head-text">
           <div className="head-text-logo">
             <img src="/logo1.png" alt="MonkeyBG Logo" />
@@ -268,6 +270,9 @@ function App() {
         </div>
 
         <How />
+        */}
+
+        <Repair />
       </main>
     </>
   );
