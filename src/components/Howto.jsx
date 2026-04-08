@@ -20,7 +20,7 @@ function Howto() {
         <Card
           image="https://res.cloudinary.com/dgwmeeszw/image/upload/v1775484549/edit_wql8m7.png"
           title="3. Edit"
-          description="Download your new image as a PNG file with a transparent background to save, share, or keep editing in Adobe Express."
+          description="Download your new image as a PNG file with a transparent background to save."
         />
       </div>
     </div>
