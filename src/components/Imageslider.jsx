@@ -5,10 +5,7 @@ import "../style/imgslider.css";
 
 function Imageslider({ remove }) {
   return (
-    <div
-      className="slider-container"
-      style={{ display: remove ? "none" : "flex" }}
-    >
+    <div className={`slider-container ${remove ? "hidden" : ""}`}>
       <Slider
         before={before}
         after={after}

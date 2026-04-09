@@ -5,8 +5,17 @@
   align-items: center;
   justify-content: center;
 }
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
 @media (max-width: 768px) {
   .slider-container {
-    width: 1000%;
+    display: none;
+    width: 100%;
+    border: solid;
   }
 }
