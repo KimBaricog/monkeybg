@@ -4,7 +4,8 @@ import Repair from "./components/Repair";
 import Loader from "./components/Loader";
 import Alert from "./components/Alertcom";
 import How from "./components/Howto";
-
+import Slider from "./components/Slider";
+import Imageslider from "./components/Imageslider";
 import React, { useState, useRef } from "react";
 
 function App() {
@@ -27,9 +28,12 @@ function App() {
   const [images, setImages] = useState([]);
   const [imgData, setImgData] = useState(null);
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false); // for the loader
+  const [isreveal, setisreveal] = useState(false); //for the before and after slider
   const [isShow, setIsShow] = useState(false);
   const [isShowError, setIsShowError] = useState(false);
+
+  const reveal = () => setisreveal((prev) => !prev);
 
   const [dragging, setDragging] = useState(false);
 
@@ -48,7 +52,7 @@ function App() {
   const handlepreview = () => {
     const file = image.current.files[0];
     if (!file) return;
-
+    reveal();
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
     if (!allowedTypes.includes(file.type)) {
       alert("Only PNG and JPG files are allowed!");
@@ -96,6 +100,7 @@ function App() {
   };
 
   const showloader = () => setIsVisible((prev) => !prev);
+
   const showsuccess = () => setIsShow((prev) => !prev);
   const showerror = () => setIsShowError((prev) => !prev);
 
@@ -118,7 +123,7 @@ function App() {
     const response = await fetch("https://api.remove.bg/v1.0/removebg", {
       method: "POST",
       headers: {
-        "X-Api-Key": "xxq7Jj8Dtdts63TAU9bpa5oo", //hahahaha expose API key don't have the budget for a backend deployment :D(Anyway, this key is rate-limited and can only be used for testing purposes)
+        "X-Api-Key": "ifZuxLMGgT2ugH5mYYRsHA3y", //hahahaha expose API key don't have the budget for a backend deployment :D(Anyway, this key is rate-limited and can only be used for testing purposes)
       },
       body: formData,
     });
@@ -172,7 +177,6 @@ function App() {
     <>
       <Header />
       <main>
-        {/* 
         <div className="head-text">
           <div className="head-text-logo">
             <img src="/logo1.png" alt="MonkeyBG Logo" />
@@ -186,7 +190,11 @@ function App() {
 
         <Alert showsuccess={isShow} showerror={isShowError} />
         <p ref={errorText} style={{ color: "red" }}></p>
-        <div className="parentcontainer">
+        <div
+          className="parentcontainer"
+          style={{ flexDirection: isreveal ? "column" : "row" }}
+        >
+          <Imageslider remove={isreveal} />
           <div
             className="container"
             onDragOver={handleDragOver}
@@ -268,11 +276,8 @@ function App() {
             </p>
           </div>
         </div>
-
         <How />
-        */}
-
-        <Repair />
+        <Slider />
       </main>
     </>
   );

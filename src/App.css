@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   margin-bottom: 100px;
 }
 .container {
@@ -144,5 +144,8 @@ button:hover {
   .main-text {
     width: 90%;
     font-size: 1em;
+  }
+  .parentcontainer {
+    flex-direction: column-reverse;
   }
 }
